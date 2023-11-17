@@ -1,29 +1,29 @@
 package main
 
 import (
-	auth "com.lh.auth/src"
-	"com.lh.service/src/config"
+	"com.lh.service/src/config/middleware"
+	"com.lh.service/src/config/yaml"
 	"com.lh.service/src/tools"
+	router2 "com.lh.web.service/src/router"
 	"github.com/gin-gonic/gin"
-	"net/http"
 	"os"
 	"strings"
 )
 
-func Config() (config.MiddleConf, error) {
+func Config() (middleware.MiddleConf, error) {
 	platform := tools.Platform("")
 	dir, _ := os.Getwd()
 	dir = strings.Replace(dir, "\\", "/", -1)
 	paths := []string{dir, "config", platform.Env + ".config.yaml"}
 	pathname := strings.Join(paths, "/")
-	configs, err := config.Yaml(pathname)
+	configs, err := yaml.Yaml(pathname)
 	if err != nil {
-		return config.MiddleConf{}, err
+		return middleware.MiddleConf{}, err
 	}
-	devServe := configs.Services["auth"]
+	devServe := configs.Services["webService"]
 	root := configs.Root[platform.Platform]
 	database := configs.Database["badger"]
-	return config.MiddleConf{
+	return middleware.MiddleConf{
 		Platform:  platform.Platform,
 		Serve:     "webService",
 		Root:      root,
@@ -37,11 +37,8 @@ func Config() (config.MiddleConf, error) {
 func main() {
 	router := gin.Default()
 	configs, _ := Config()
-	router.Use(config.MiddleWare(configs))
-	router.GET("/", func(c *gin.Context) {
-		auth.Test()
-		c.String(http.StatusOK, "hello world!")
-	})
+	router.Use(middleware.Cors())
+	router2.Router(router)
 	address := []string{configs.Host, configs.Port}
 	router.Run(strings.Join(address, ":"))
 }
