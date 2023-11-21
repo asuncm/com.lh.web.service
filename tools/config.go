@@ -1,8 +1,8 @@
 package tools
 
 import (
-	"com.lh.service/src/config/yaml"
-	"com.lh.service/src/tools"
+	"com.lh.service/config/yaml"
+	"com.lh.service/tools"
 	"os"
 	"strings"
 )

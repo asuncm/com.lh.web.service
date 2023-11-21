@@ -1,10 +1,10 @@
 package main
 
 import (
-	"com.lh.service/src/config/middleware"
-	"com.lh.service/src/config/yaml"
-	"com.lh.service/src/tools"
-	router2 "com.lh.web.service/src/router"
+	"com.lh.service/config/middleware"
+	"com.lh.service/config/yaml"
+	"com.lh.service/tools"
+	router2 "com.lh.web.service/router"
 	"github.com/gin-gonic/gin"
 	"os"
 	"strings"
