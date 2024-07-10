@@ -11,13 +11,18 @@ import (
 
 func Config() (tools.MiddleConf, error) {
 	platform := tools.Platform("")
+<<<<<<< HEAD
 	root := tools.GetPath("LHPATH", "")
 	pathname := fmt.Sprintf("%s%s%s%s", root, "/config/", platform.Env, ".config.yaml")
+=======
+	pathname := tools.GetPath("LHPATH", fmt.Sprintf("%s%s%s", "config/", platform.Env, ".config.yaml"))
+>>>>>>> d24e334 (更新：代码更新)
 	configs, err := tools.Yaml(pathname)
 	if err != nil {
 		return tools.MiddleConf{}, err
 	}
 	devServe := configs.Services["webService"]
+<<<<<<< HEAD
 	database := tools.GetPath(configs.Database, "pebble/webService")
 	return tools.MiddleConf{
 		Platform: platform.Platform,
@@ -26,6 +31,18 @@ func Config() (tools.MiddleConf, error) {
 		Host:     devServe.Host,
 		Port:     devServe.Port,
 		DataDir:  database,
+=======
+	root := configs.Root
+	database := fmt.Sprintf("%s%s", configs.Database, "/pebble")
+	return tools.MiddleConf{
+		Platform:  platform.Platform,
+		Serve:     "webService",
+		Root:      root,
+		Host:      devServe.Host,
+		Port:      devServe.Port,
+		DataCache: database,
+		DataPort:  devServe.DataPort,
+>>>>>>> d24e334 (更新：代码更新)
 	}, err
 }
 
