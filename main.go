@@ -2,8 +2,8 @@ package main
 
 import (
 	"com.lh.basic/config"
-	"com.lh.service/pgx"
 	"com.lh.service/tools"
+	"com.lh.service/yugabyte"
 	"com.lh.web.service/locales"
 	"com.lh.web.service/router"
 	"fmt"
@@ -14,7 +14,7 @@ func main() {
 	app := gin.Default()
 	config.InitConfig("com.lh.web.service")
 	configs := config.GetConfig("webService")
-	pgx.InitConfig()
+	yugabyte.InitConfig()
 	app.Use(tools.Cors())
 	//app.Use(tools.MiddleWare(configs))
 	locales.Init()
